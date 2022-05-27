@@ -8,10 +8,9 @@ use Volkov\EventBot;
 
 $response = EventBot::getUpdates();
 
-if (!empty($response)) {
-    $text = "";
-    $text .= $response[0]["message"]["text"];
+$message = EventBot::messageHandler($response[0]["message"]["text"]);
+$text = "Магазин: {$message[0]}\nТовар: {$message[1]}\nНа сумму: {$message[2]}";
 
-    EventBot::sendMessage($response[0]["message"]["chat"]["id"], $text);
-    EventBot::setUpdate_id($response[0]["update_id"]);
+if (!empty($response)) {
+    EventBot::sendMessage($response[0]["message"]["chat"]["id"], $response[0]["update_id"], $text);
 }
